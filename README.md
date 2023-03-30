@@ -1,3 +1,9 @@
+source myvenv/bin/activate
+
 python manage.py runserver
 
-source myvenv/bin/activate
+python manage.py makemigrations
+
+python manage.py migrate
+
+python manage.py createsuperuser
