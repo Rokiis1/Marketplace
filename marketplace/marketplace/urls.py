@@ -1,13 +1,16 @@
+# Import necessary modules and classes
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from core.views import index, contact
-
+# Define URL patterns for the project
 urlpatterns = [
-    path("", index, name="index"),
+    # Include URLs defined in the 'core' app
+    path("", include("core.urls")),
+    # Include URLs defined in the 'item' app
     path("items/", include("item.urls")),
-    path("contact/", contact, name="contact"),
+    # Include the built-in admin site
     path("admin/", admin.site.urls),
+    # Serve media files during development
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
