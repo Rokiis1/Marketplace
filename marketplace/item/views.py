@@ -1,15 +1,26 @@
 # Import the `render` and `get_object_or_404` functions from the `django.shortcuts` module.
 # Also import the `Item` model from the current directory (`.`).
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import NewItemForm, EditItemForm
-from .models import Item
+from .models import Category, Item
 
 def items(request):
-    items =Item.objects.filter(is_sold=False)
+    query = request.GET.get('query', '')
+    category_id= request.GET.get('category', 0)
+    categories = Category.objects.all()
+    items = Item.objects.filter(is_sold=False)
     
-    return render(request, 'item/items.html', {'items': items})
+    if category_id:
+        items = items.filter(category_id=category_id)
+    
+    if query:
+        items = items.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    
+    return render(request, 'item/items.html', {'items': items, 'query': query, 'categories': categories, 'category_id': int(category_id)})
+
 
 # Define a view function that takes a `request` object and a `pk` parameter.
 # This function retrieves an `Item` object with the given primary key (`pk`)
