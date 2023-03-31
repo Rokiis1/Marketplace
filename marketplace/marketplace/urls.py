@@ -11,6 +11,7 @@ urlpatterns = [
     # Include URLs defined in the 'item' app
     path("items/", include("item.urls")),
     # Include the built-in admin site
+    path("dashboard/", include("dashboard.urls")),
     path("admin/", admin.site.urls),
     # Serve media files during development
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
