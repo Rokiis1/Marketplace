@@ -12,8 +12,10 @@ app_name = 'item'
 # The path calls the `detail` view function from `views.py`.
 # The URL pattern name is `detail`, which can be used to reverse the URL.
 urlpatterns = [
+    path('', views.items, name='items'),
     path('new/', views.new, name='new'),
     path('<int:pk>/', views.detail, name='detail'),
     path('<int:pk>/delete/', views.delete, name='delete'),
+    path('<int:pk>/edit/', views.edit, name='edit'),
 ]
 
