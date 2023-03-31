@@ -1,4 +1,4 @@
-source venv/bin/activate
+source env/bin/activate
 
 python manage.py runserver
 
