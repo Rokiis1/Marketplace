@@ -1,7 +1,9 @@
 # Import the `render` and `get_object_or_404` functions from the `django.shortcuts` module.
 # Also import the `Item` model from the current directory (`.`).
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
 
+from .forms import NewItemForm
 from .models import Item
 
 # Define a view function that takes a `request` object and a `pk` parameter.
@@ -17,3 +19,19 @@ def detail(request, pk):
     
     return render(request, 'item/detail.html', {'item': item, "related_items": related_items})
     
+
+@login_required
+def new(request):
+    if request.method == 'POST':
+        form = NewItemForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.created_by = request.user
+            item.save()
+
+            return redirect('item:detail', pk=item.id)
+    else:
+        form = NewItemForm()
+    
+    return render(request, 'item/form.html', {'form': form, 'title': 'New item'})
