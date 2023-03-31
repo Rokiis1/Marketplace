@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
 CSRF_TRUSTED_ORIGINS = ["https://rokiis1-crispy-tribble-pqxwwv77xv9frxj9-8000.preview.app.github.dev"]
 
 # Application definition
